@@ -18,7 +18,8 @@ applyBtn.addEventListener("click", (e) => {
       tradeType: tradeType.value,
     })
     .then((res) => {
-      console.log("success response form axios", res.data);
+      console.log("success response form axios", res.data.ret_msg);
+      alert(res.data.ret_msg);
     })
     .catch((err) => {
       console.error(err);

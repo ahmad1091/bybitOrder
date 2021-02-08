@@ -116,17 +116,20 @@ exports.post = (req, res) => {
             })
             .then((result2) => {
               console.log(result2.data);
+              res.send(result2.data);
             })
             .catch((err) => {
               console.error(err);
+              res.send(err);
             });
-          res.send("you arrived");
         })
         .catch((err) => {
           console.error(err);
+          res.send(err);
         });
     })
     .catch((err) => {
       console.error(err);
+      res.send(err);
     });
 };
