@@ -11,16 +11,21 @@
     <div id="back">
       <label for="entry">Entry Price:</label>
       <input type="number" id="entry" /><br />
-      <label for="entry">Percentage :</label>
+      <label for="Percentage">Percentage :</label>
       <input type="number" id="balancePercentage" /><br />
-      <label for="entry">leverage :</label>
+      <label for="leverage">leverage :</label>
       <input type="number" id="leverage" /><br />
-      <label for="entry">side :</label>
+      <label for="trade-type">trade-type :</label>
+      <select name="trade-type" id="trade-type">
+        <option value="InversePerpetual">Inverse Perpetual</option>
+        <option value="USDTPerpetual">USDT Perpetual</option></select
+      ><br />
+      <label for="side">side :</label>
       <select name="side" id="side">
         <option value="Buy">Buy</option>
         <option value="Sell">Sell</option></select
       ><br />
-      <label for="entry">symbol :</label>
+      <label for="symbol">symbol :</label>
       <select name="symbol" id="symbol">
         <option value="BTCUSD">BTCUSD</option>
         <option value="BCHUSD">BCHUSD</option>

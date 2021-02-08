@@ -4,7 +4,22 @@ const crypto = require("crypto");
 exports.post = (req, res) => {
   const apiKey = process.env.apikey;
   const apiPrivate = process.env.apiprivate;
-  const { entryPrice, percentage, leverage, side, symbol } = req.body;
+  const {
+    entryPrice,
+    percentage,
+    leverage,
+    side,
+    symbol,
+    tradeType,
+  } = req.body;
+
+  let orderEndPoint = "";
+  if (tradeType == "InversePerpetual") {
+    orderEndPoint = "/v2/private/order/create";
+  } else if (tradeType == "USDTPerpetual") {
+    orderEndPoint = "/private/linear/order/create";
+  }
+
   const baseUrl = "https://api.bybit.com";
   const balaneEndPoint = "/v2/private/wallet/balance";
   const timestamp = Date.now();
@@ -27,15 +42,18 @@ exports.post = (req, res) => {
   axios
     .get(balanceUrl)
     .then((result) => {
-      const availableBalance = result.data.result.USDT.available_balance;
+      console.log(result.data);
+      const availableBalance = 0; //result.data.result.USDT.available_balance;
       // const quntity = availableBalance * (percentage / 100);
       const parsedEntry = Number(entryPrice);
       const quntity =
         (availableBalance / parsedEntry) * (percentage / 100) * leverage;
+      // in case of usd
       // const quntity =
       // (availableBalance * parsedEntry) * (percentage / 100) * leverage;
-      const qty = String(quntity).slice(0, 6);
+      const qty = String(quntity).slice(0, 5);
       const parsedQty = Number(qty);
+
       let stopLoss, target;
       if (side == "Sell") {
         stopLoss = parsedEntry + parsedEntry * (0.03 / leverage);
@@ -45,7 +63,18 @@ exports.post = (req, res) => {
         target = parsedEntry + parsedEntry * (0.01 / leverage);
       }
 
-      console.log(parsedQty, stopLoss, target, parsedEntry);
+      console.log(
+        "orderEndPoint",
+        orderEndPoint,
+        "QTY",
+        parsedQty,
+        "SL:",
+        stopLoss,
+        "target:",
+        target,
+        "Entry:",
+        parsedEntry
+      );
       const activeOrderQueryString = `api_key=${apiKey}&close_on_trigger=false&order_type=Limit&price=${entryPrice}&qty=${parsedQty}&reduce_only=false&side=${side}&stop_loss=${stopLoss}&symbol=${symbol}&take_profit=${target}&time_in_force=GoodTillCancel&timestamp=${timestamp}`;
       //api_key=AV8RJ4hjD9nxB2LamP&order_type=Limit&price=37939.00&qty=0.002&reduce_only=false&side=buy&stop_loss=1138.1699999999998&symbol=XTZUSDT&take_profit=379.39&time_in_force=GoodTillCancel&timestamp=1612728641577
       const activeOrderSignature = crypto
@@ -59,7 +88,7 @@ exports.post = (req, res) => {
         .update(leverageQuery)
         .digest("hex");
       axios
-        .post("https://api.bybit.com/private/linear/position/set-leverage", {
+        .post(baseUrl + "/private/linear/position/set-leverage", {
           api_key: apiKey,
           buy_leverage: leverage,
           sell_leverage: leverage,
@@ -70,7 +99,7 @@ exports.post = (req, res) => {
         .then((res1) => {
           console.log(res1.data);
           axios
-            .post("https://api.bybit.com/private/linear/order/create", {
+            .post(baseUrl + orderEndPoint, {
               api_key: apiKey,
               close_on_trigger: false,
               order_type: "Limit",

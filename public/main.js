@@ -4,6 +4,7 @@ const percentage = document.getElementById("balancePercentage");
 const leverage = document.getElementById("leverage");
 const side = document.getElementById("side");
 const symbol = document.getElementById("symbol");
+const tradeType = document.getElementById("trade-type");
 
 applyBtn.addEventListener("click", (e) => {
   e.preventDefault();
@@ -14,6 +15,7 @@ applyBtn.addEventListener("click", (e) => {
       leverage: leverage.value,
       side: side.value,
       symbol: symbol.value,
+      tradeType: tradeType.value,
     })
     .then((res) => {
       console.log("success response form axios", res.data);
