@@ -43,7 +43,7 @@ exports.post = (req, res) => {
     .get(balanceUrl)
     .then((result) => {
       console.log(result.data);
-      const availableBalance = 0; //result.data.result.USDT.available_balance;
+      const availableBalance = result.data.result.USDT.available_balance;
       // const quntity = availableBalance * (percentage / 100);
       const parsedEntry = Number(entryPrice);
       const quntity =
@@ -53,14 +53,21 @@ exports.post = (req, res) => {
       // (availableBalance * parsedEntry) * (percentage / 100) * leverage;
       const qty = String(quntity).slice(0, 5);
       const parsedQty = Number(qty);
-
       let stopLoss, target;
       if (side == "Sell") {
-        stopLoss = parsedEntry + parsedEntry * (0.03 / leverage);
-        target = parsedEntry - parsedEntry * (0.01 / leverage);
+        stopLoss = Number(
+          String(parsedEntry + parsedEntry * (0.03 / leverage)).slice(0, 6)
+        );
+        target = Number(
+          String(parsedEntry - parsedEntry * (0.01 / leverage)).slice(0, 6)
+        );
       } else {
-        stopLoss = parsedEntry - parsedEntry * (0.03 / leverage);
-        target = parsedEntry + parsedEntry * (0.01 / leverage);
+        stopLoss = Number(
+          String(parsedEntry - parsedEntry * (0.03 / leverage)).slice(0, 6)
+        );
+        target = Number(
+          String(parsedEntry + parsedEntry * (0.01 / leverage)).slice(0, 6)
+        );
       }
 
       console.log(
