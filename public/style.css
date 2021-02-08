@@ -1,0 +1,16 @@
+#back {
+  background-color: black;
+  max-width: 500px;
+  margin: auto;
+  padding: 10px;
+}
+label {
+  color: #999;
+}
+#btn {
+  background-color: #ffb11a;
+}
+
+input {
+  background-color: #999;
+}

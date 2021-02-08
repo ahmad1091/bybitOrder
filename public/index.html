@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./style.css" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div id="back">
+      <label for="entry">Entry Price:</label>
+      <input type="number" id="entry" /><br />
+      <label for="entry">Percentage :</label>
+      <input type="number" id="balancePercentage" /><br />
+      <label for="entry">leverage :</label>
+      <input type="number" id="leverage" /><br />
+      <label for="entry">side :</label>
+      <select name="side" id="side">
+        <option value="Buy">Buy</option>
+        <option value="Sell">Sell</option></select
+      ><br />
+      <label for="entry">symbol :</label>
+      <select name="symbol" id="symbol">
+        <option value="BTCUSD">BTCUSD</option>
+        <option value="BCHUSD">BCHUSD</option>
+        <option value="EOSUSD">EOSUSD</option>
+        <option value="XRPUSD">XRPUSD</option>
+        <option value="BTCUSDT">BTCUSDT</option>
+        <option value="BCHUSDT">BCHUSDT</option>
+        <option value="ETHUSDT">ETHUSDT</option>
+        <option value="LTCUSDT">LTCUSDT</option>
+        <option value="LINKUSDT">LINKUSDT</option>
+        <option value="XTZUSDT">XTZUSDT</option></select
+      ><br />
+      <button type="submit" id="btn">Apply</button>
+    </div>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"
+      integrity="sha512-bZS47S7sPOxkjU/4Bt0zrhEtWx0y0CRkhEp8IckzK+ltifIIE9EMIMTuT/mEzoIMewUINruDBIR/jJnbguonqQ=="
+      crossorigin="anonymous"
+    ></script>
+    <script src="./main.js"></script>
+  </body>
+</html>
