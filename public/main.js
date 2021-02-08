@@ -5,6 +5,8 @@ const leverage = document.getElementById("leverage");
 const side = document.getElementById("side");
 const symbol = document.getElementById("symbol");
 const tradeType = document.getElementById("trade-type");
+const apiKey = document.getElementById("apiKey");
+const apiSecret = document.getElementById("apiSecret");
 
 applyBtn.addEventListener("click", (e) => {
   e.preventDefault();
@@ -16,6 +18,8 @@ applyBtn.addEventListener("click", (e) => {
       side: side.value,
       symbol: symbol.value,
       tradeType: tradeType.value,
+      apiKey: apiKey.value,
+      apiSecret: apiSecret.value,
     })
     .then((res) => {
       console.log("success response form axios", res);

@@ -2,8 +2,8 @@ const axios = require("axios");
 const crypto = require("crypto");
 
 exports.post = (req, res) => {
-  const apiKey = process.env.apikey;
-  const apiPrivate = process.env.apiprivate;
+  // const apiKey = process.env.apikey;
+  // const apiPrivate = process.env.apiprivate;
   const {
     entryPrice,
     percentage,
@@ -11,6 +11,8 @@ exports.post = (req, res) => {
     side,
     symbol,
     tradeType,
+    apiKey,
+    apiSecret,
   } = req.body;
 
   let orderEndPoint = "";
@@ -25,7 +27,7 @@ exports.post = (req, res) => {
   const timestamp = Date.now();
   const balanceQueryString = `api_key=${apiKey}&timestamp=${timestamp}`;
   const balanceSignature = crypto
-    .createHmac("sha256", apiPrivate)
+    .createHmac("sha256", apiSecret)
     .update(balanceQueryString)
     .digest("hex");
 
@@ -85,13 +87,13 @@ exports.post = (req, res) => {
       const activeOrderQueryString = `api_key=${apiKey}&close_on_trigger=false&order_type=Limit&price=${entryPrice}&qty=${parsedQty}&reduce_only=false&side=${side}&stop_loss=${stopLoss}&symbol=${symbol}&take_profit=${target}&time_in_force=GoodTillCancel&timestamp=${timestamp}`;
       //api_key=AV8RJ4hjD9nxB2LamP&order_type=Limit&price=37939.00&qty=0.002&reduce_only=false&side=buy&stop_loss=1138.1699999999998&symbol=XTZUSDT&take_profit=379.39&time_in_force=GoodTillCancel&timestamp=1612728641577
       const activeOrderSignature = crypto
-        .createHmac("sha256", apiPrivate)
+        .createHmac("sha256", apiSecret)
         .update(activeOrderQueryString)
         .digest("hex");
 
       const leverageQuery = `api_key=${apiKey}&buy_leverage=${leverage}&sell_leverage=${leverage}&symbol=${symbol}&timestamp=${timestamp}`;
       const leverageSignature = crypto
-        .createHmac("sha256", apiPrivate)
+        .createHmac("sha256", apiSecret)
         .update(leverageQuery)
         .digest("hex");
       axios
